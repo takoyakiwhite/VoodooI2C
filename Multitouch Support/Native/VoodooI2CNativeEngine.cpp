@@ -53,12 +53,6 @@ MultitouchReturn VoodooI2CNativeEngine::handleInterruptReport(VoodooI2CMultitouc
         }
         
         inputTransducer->isTransducerActive = transducer->tip_switch.value();
-        // Deliver the primary (left) physical button as the Magic Trackpad's
-        // physical button in the multitouch report. macOS then applies its own
-        // native "secondary click in corner" detection based on the finger
-        // position, so clickpads work without any hardcoded thresholds here.
-        // (A genuine secondary/right button is still forwarded through the
-        // trackpoint device below, so it is not double-reported.)
         inputTransducer->isPhysicalButtonDown = (transducer->physical_button.value() & 0x1) != 0;
         
         inputTransducer->currentCoordinates.x = transducer->coordinates.x.value();
