@@ -99,10 +99,6 @@ MultitouchReturn VoodooI2CNativeEngine::handleInterruptReport(VoodooI2CMultitouc
     super::messageClient(kIOMessageVoodooInputMessage, voodooInputInstance, &message, sizeof(VoodooInputEvent));
     
     if (firstTransducer->has_secondary_button) {
-        // Only the genuine secondary (right) button is forwarded through the
-        // trackpoint device. The primary (left) button is already reported as
-        // the Magic Trackpad physical button above, so macOS can apply its
-        // native corner-based secondary click.
         UInt16 secondary = firstTransducer->physical_button.value() & 0x2;
         if (secondary) {
             RelativePointerEvent event;
