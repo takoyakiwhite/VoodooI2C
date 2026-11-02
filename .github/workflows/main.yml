@@ -50,6 +50,17 @@ jobs:
     - name: Build Release VoodooI2C
       run: xcodebuild -workspace VoodooI2C.xcworkspace -scheme VoodooI2C -derivedDataPath build -jobs 1 -configuration Release
 
+    - name: Build Release VoodooI2CHID
+      run: xcodebuild -project "VoodooI2C Satellites/VoodooI2CHID/VoodooI2CHID.xcodeproj" -scheme VoodooI2CHID -derivedDataPath build -configuration Release
+
+    - name: Package VoodooI2CHID
+      run: ditto -c -k --sequesterRsrc --keepParent build/Build/Products/Release/VoodooI2CHID.kext VoodooI2CHID.kext.zip
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: VoodooI2CHID-${{ steps.vars.outputs.sha_short }}
+        path: VoodooI2CHID.kext.zip
+
     - name: Generate Release Description
       if: github.event_name == 'release'
       run: |
