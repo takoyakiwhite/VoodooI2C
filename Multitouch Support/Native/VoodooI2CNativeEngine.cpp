@@ -99,15 +99,12 @@ MultitouchReturn VoodooI2CNativeEngine::handleInterruptReport(VoodooI2CMultitouc
     super::messageClient(kIOMessageVoodooInputMessage, voodooInputInstance, &message, sizeof(VoodooInputEvent));
     
     if (firstTransducer->has_secondary_button) {
-        UInt16 secondary = firstTransducer->physical_button.value() & 0x2;
-        if (secondary) {
-            RelativePointerEvent event;
-            event.dx = 0;
-            event.dy = 0;
-            event.buttons = secondary;
-            event.timestamp = timestamp;
-            super::messageClient(kIOMessageVoodooTrackpointRelativePointer, voodooInputInstance, &event, sizeof(event));
-        }
+        RelativePointerEvent buttonEvent;
+        buttonEvent.dx = 0;
+        buttonEvent.dy = 0;
+        buttonEvent.buttons = event.external_buttons;
+        buttonEvent.timestamp = timestamp;
+        super::messageClient(kIOMessageVoodooTrackpointRelativePointer, voodooInputInstance, &buttonEvent, sizeof(buttonEvent));
     }
     return MultitouchReturnBreak;
 }

@@ -14,6 +14,7 @@
 
 typedef struct {
     UInt8 contact_count;
+    UInt16 external_buttons;
     OSArray* transducers;
 } VoodooI2CMultitouchEvent;
 
